@@ -35,6 +35,12 @@ input_path_options = {
     "show_default": False
 }
 
+def is_ascii(s):
+    try:
+        s.encode('ascii')
+        return True
+    except (AttributeError, UnicodeEncodeError):
+        return False
 
 def main(
     input_dir: pathlib.Path = typer.Argument(..., help="Path to virtual machine directory, or any directory containing .vmdk/.vmem files.",
@@ -169,15 +175,15 @@ def main(
 
     # Convert to filenames, not file paths.
     env_var_mapping = {
-        "FROM_DISK_IMAGE_FILENAME": from_disk,
-        "TO_DISK_IMAGE_FILENAME": to_disk,
-        "FROM_MEMORY_IMAGE_FILENAME": from_memory,
-        "TO_MEMORY_IMAGE_FILENAME": to_memory,
-        "SNAPSHOT_DIR": input_dir,
-        "FILTER_PATH_JSON": filter_path_json,
-        "IGNORE_PATH_JSON": ignore_path_json,
-        "IGNORE_PROCESSES_REGEX": ignore_processes,
-        "PARTITION_IDENTIFIER": partition,
+        "FROM_DISK_IMAGE_FILENAME": str(from_disk),
+        "TO_DISK_IMAGE_FILENAME": str(to_disk),
+        "FROM_MEMORY_IMAGE_FILENAME": str(from_memory),
+        "TO_MEMORY_IMAGE_FILENAME": str(to_memory),
+        "SNAPSHOT_DIR": str(input_dir),
+        "FILTER_PATH_JSON": str(filter_path_json),
+        "IGNORE_PATH_JSON": str(ignore_path_json),
+        "IGNORE_PROCESSES_REGEX": str(ignore_processes),
+        "PARTITION_IDENTIFIER": str(partition),
         "USE_CACHE": str(cache),
         "USE_DISK": str(use_disk),
         "USE_MEMORY": str(use_memory),
